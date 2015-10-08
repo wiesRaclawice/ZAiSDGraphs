@@ -7,131 +7,180 @@ using System.Threading.Tasks;
 
 namespace ZAiSD_Graphs.Classes
 {
-    class NeighborhoodRepresentation : Graph
+    internal class NeighborhoodRepresentation : Graph
     {
         private Node[] _nodes;
         private int _numberOfNodes;
-        private int _lastIndex;
+        private int _numberOfEdges;
 
         public NeighborhoodRepresentation(int numberOfNodes)
         {
             _nodes = new Node[numberOfNodes];
             _numberOfNodes = 0;
-            _lastIndex = 0;
         }
 
-        private bool Found(object nodeId)
+        public void AddNode(int nodeId)
         {
-            return _nodes.Any(node => node != null && node.NodeId.Equals(nodeId));
-        }
-
-        public void AddNode(object nodeId)
-        {
-            if (Found(nodeId)) return;
-            _nodes[_lastIndex] = new Node(nodeId);
+            if (_nodes[nodeId] != null) return;
+            _nodes[nodeId] = new Node(nodeId);
             _numberOfNodes += 1;
-            _lastIndex += 1;
         }
 
-        private void DeleteNodeFromTable(object nodeId)
+        private void DeleteNodeFromTable(int nodeId)
         {
-            for (var i = 0; i < _nodes.Length; i++)
-            {
-                if (!_nodes[i].NodeId.Equals(nodeId) || _nodes[i] == null) continue;
-                _nodes[i] = null;
-                break;
-            }
+            _nodes[nodeId] = null;
         }
 
-        private void DeleteIncidentEdges(object nodeId)
+        private void DeleteEdgesToDeletedNode(int deletedNodeId)
         {
             foreach (var node in _nodes)
             {
-                var edgeList = node?.EdgeList;
-                if (edgeList?.Head == null ) continue;
-                
-                var element = edgeList.Head;
-                var previous = element;
-                while (element != null && !element._nodeId.Equals(nodeId))
-                {
-                    previous = element;
-                    element = element._nextEdge;
-                }
-
-                if (element == null) continue;
-
-                if (element == edgeList.Head)
-                {
-                    edgeList.Head = element._nextEdge;
-                }
-                else
-                {
-                    if (element._nextEdge == null)
-                    {
-                        edgeList.Tail = previous;
-                        previous._nextEdge = null;
-                    }
-                    else
-                    {
-                        previous._nextEdge = element._nextEdge;
-                    }
-                }
+                DeleteEdge(node.NodeId, deletedNodeId);
             }
         }
 
-        public void DeleteNode(object nodeId)
+        public void DeleteNode(int nodeId)
         {
             DeleteNodeFromTable(nodeId);
-            DeleteIncidentEdges(nodeId);
+            DeleteEdgesToDeletedNode(nodeId);
             _numberOfNodes -= 1;
         }
 
-        public void AddEdge(object firstNode, object secondNode, int weight)
+        public void AddEdge(int firstNode, int secondNode, int weight)
         {
-            var edge = new Edge(weight, secondNode);
-            foreach (var node in _nodes.Where(node => node.NodeId.Equals(firstNode)))
+
+            if (_nodes[firstNode] == null)
             {
-                if (node.EdgeList.Head == null)
-                {
-                    node.EdgeList.Head = node.EdgeList.Tail = edge;
-                }
-                else
-                {
-                    node.EdgeList.Tail._nextEdge = edge;
-                    node.EdgeList.Tail = edge;
-                }
-                break;
+                AddNode(firstNode);
+            }
+
+            if (_nodes[secondNode] == null)
+            {
+                AddNode(secondNode);
+            }
+
+            _numberOfEdges += 1;
+            var edge = new Edge(weight, _nodes[secondNode]);
+
+            var node = _nodes[firstNode];
+
+            if (node.EdgeList.Head == null)
+            {
+                node.EdgeList.Head = node.EdgeList.Tail = edge;
+            }
+            else
+            {
+                node.EdgeList.Tail.NextEdge = edge;
+                node.EdgeList.Tail = edge;
             }
         }
 
-        public void DeleteEdge(object firstNode, object secondNode)
+        public void DeleteFromList(Node node, int nodeId)
         {
-            throw new NotImplementedException();
+            var edgeList = node.EdgeList;
+            if (edgeList.Head == null) return;
+
+            var element = edgeList.Head;
+            var previous = element;
+            while (element != null && !element.NodeObject.NodeId.Equals(nodeId))
+            {
+                previous = element;
+                element = element.NextEdge;
+            }
+
+            if (element == null) return;
+
+            if (element == edgeList.Head)
+            {
+                edgeList.Head = element.NextEdge;
+            }
+            else
+            {
+                if (element.NextEdge == null)
+                {
+                    edgeList.Tail = previous;
+                    previous.NextEdge = null;
+                }
+                else
+                {
+                    previous.NextEdge = element.NextEdge;
+                }
+            }
         }
 
-        public List<int> GetNeighbors(object nodeId)
+        public void DeleteEdge(int firstNode, int secondNode)
         {
-            throw new NotImplementedException();
+            DeleteFromList(_nodes[firstNode], secondNode);
         }
 
-        public List<int> GetEdges(object nodeId)
+        public List<Node> GetNeighbors(int nodeId)
         {
-            throw new NotImplementedException();
+            var neighborList = new List<Node>();
+            
+            foreach (var node in _nodes)
+            {
+                var element = node.EdgeList.Head;
+
+                while (element != null)
+                {
+                    if (!element.NodeObject.NodeId.Equals(nodeId) || !node.NodeId.Equals(nodeId)) continue;
+                    if (!neighborList.Contains(element.NodeObject))
+                    {
+                        neighborList.Add(element.NodeObject);
+                    }
+                    element = element.NextEdge;
+                }
+            }
+            
+            return neighborList;
+        }
+
+        public List<Edge> GetIncidentEdges(int nodeId)
+        {
+            var edges = new List<Edge>();
+            var neighbors = new List<Node>();
+
+            neighbors = GetNeighbors(nodeId);
+
+            foreach (var neighbor in neighbors)
+            {
+                var element = _nodes[neighbor.NodeId].EdgeList.Head;
+                while (element != null)
+                {
+                    if (element.NodeObject.NodeId.Equals(nodeId))
+                    {
+                        edges.Add(element);
+                    }
+                    element = element.NextEdge;
+                }
+            }
+
+            var e = _nodes[nodeId].EdgeList.Head;
+
+            while (e != null)
+            {
+                edges.Add(e);
+                e = e.NextEdge;
+            } 
+            
+
+            return edges;
         }
 
         public int GetNumberOfNodes()
         {
-            throw new NotImplementedException();
+            return _numberOfNodes;
         }
 
         public int GetNumberOfEdges()
         {
-            throw new NotImplementedException();
+            return _numberOfEdges;
         }
 
-        public bool areNeighbors(object firstNode, object secondNode)
+        public bool areNeighbors(int firstNode, int secondNode)
         {
-            throw new NotImplementedException();
+            var neighbors = GetNeighbors(firstNode);
+            return neighbors.Exists(node => node.NodeId.Equals(secondNode));
         }
     }
 }

@@ -8,15 +8,15 @@ namespace ZAiSD_Graphs.Classes
 {
     interface Graph
     {
-        void AddNode(Object nodeId);
-        void DeleteNode(Object nodeId);
-        void AddEdge(object firstNode, object secondNode, int weight);
-        void DeleteEdge(Object firstNode, Object secondNode);
-        List<int> GetNeighbors(Object nodeId);
-        List<int> GetEdges(Object nodeId);
-        Int32 GetNumberOfNodes();
-        Int32 GetNumberOfEdges();
-        Boolean areNeighbors(Object firstNode, Object secondNode); 
+        void AddNode(int nodeId);
+        void DeleteNode(int nodeId);
+        void AddEdge(int nodeFrom, int nodeTo, int weight);
+        void DeleteEdge(int fnoteFrom, int nodeTo);
+        List<Node> GetNeighbors(int nodeId);
+        List<Edge> GetIncidentEdges(int nodeId);
+        int GetNumberOfNodes();
+        int GetNumberOfEdges();
+        Boolean areNeighbors(int firstNode, int secondNode); 
 
     }
 }

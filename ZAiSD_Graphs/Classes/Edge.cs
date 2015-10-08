@@ -3,15 +3,16 @@
     public class Edge
     {
         private int _weight;
-        public object _nodeId { get; }
-        public Edge _PreviousEdge;
-        public Edge _nextEdge { get; set; }
+        public Node NodeObject { get; }
+        public Edge PreviousEdge;
+        public Edge NextEdge { get; set; }
 
-        public Edge(int weight, object nodeId)
+        public Edge(int weight, Node node)
         {
             _weight = weight;
-            _nodeId = nodeId;
-            _nextEdge = null;
+            NodeObject = node;
+            NextEdge = null;
+            PreviousEdge = null;
         }
 
     }

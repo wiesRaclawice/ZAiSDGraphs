@@ -2,12 +2,12 @@
 
 namespace ZAiSD_Graphs.Classes
 {
-    internal class Node
+    public class Node
     {
-        public object NodeId { get; }
+        public int NodeId { get; }
         public EdgeList EdgeList { get; }
 
-        public Node(object nodeId)
+        public Node(int nodeId)
         {
            NodeId = nodeId;
            EdgeList = new EdgeList();
