@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,25 +45,36 @@ namespace ZAiSD_Graphs.Classes
 
         private void DeleteIncidentEdges(object nodeId)
         {
-            for (var i = 0; i < _nodes.Length; i++)
+            foreach (var node in _nodes)
             {
-                var currentNode = _nodes[i];
-
-                if (currentNode != null)
+                var edgeList = node?.EdgeList;
+                if (edgeList?.Head == null ) continue;
+                
+                var element = edgeList.Head;
+                var previous = element;
+                while (element != null && !element._nodeId.Equals(nodeId))
                 {
-                    var head = currentNode._head;
-                    while (currentEdge != null)
-                    {
-                        if (currentEdge._nodeId.Equals(nodeId))
-                        {
-                            var nodeToDelete = currentEdge;
-                            if (nodeToDelete._nextEdge == null)
-                            {
-                                
-                            }
-                        } 
-                    }
+                    previous = element;
+                    element = element._nextEdge;
+                }
 
+                if (element == null) continue;
+
+                if (element == edgeList.Head)
+                {
+                    edgeList.Head = element._nextEdge;
+                }
+                else
+                {
+                    if (element._nextEdge == null)
+                    {
+                        edgeList.Tail = previous;
+                        previous._nextEdge = null;
+                    }
+                    else
+                    {
+                        previous._nextEdge = element._nextEdge;
+                    }
                 }
             }
         }
@@ -74,9 +86,22 @@ namespace ZAiSD_Graphs.Classes
             _numberOfNodes -= 1;
         }
 
-        public void AddEdge(object firstNode, object secondNode, object weight)
+        public void AddEdge(object firstNode, object secondNode, int weight)
         {
-            throw new NotImplementedException();
+            var edge = new Edge(weight, secondNode);
+            foreach (var node in _nodes.Where(node => node.NodeId.Equals(firstNode)))
+            {
+                if (node.EdgeList.Head == null)
+                {
+                    node.EdgeList.Head = node.EdgeList.Tail = edge;
+                }
+                else
+                {
+                    node.EdgeList.Tail._nextEdge = edge;
+                    node.EdgeList.Tail = edge;
+                }
+                break;
+            }
         }
 
         public void DeleteEdge(object firstNode, object secondNode)

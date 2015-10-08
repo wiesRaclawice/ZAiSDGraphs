@@ -18,7 +18,7 @@ namespace ZAiSD_Graphs.Classes
             throw new NotImplementedException();
         }
 
-        public void AddEdge(object firstNode, object secondNode, object weight)
+        public void AddEdge(object firstNode, object secondNode, int weight)
         {
             throw new NotImplementedException();
         }

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Edge.cs" />
+    <Compile Include="Classes\EdgeList.cs" />
     <Compile Include="Classes\Graph.cs" />
     <Compile Include="Classes\MatrixRepresentation.cs" />
     <Compile Include="Classes\NeighborhoodRepresentation.cs" />

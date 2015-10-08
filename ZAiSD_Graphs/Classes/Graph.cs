@@ -10,7 +10,7 @@ namespace ZAiSD_Graphs.Classes
     {
         void AddNode(Object nodeId);
         void DeleteNode(Object nodeId);
-        void AddEdge(Object firstNode, Object secondNode, Object weight);
+        void AddEdge(object firstNode, object secondNode, int weight);
         void DeleteEdge(Object firstNode, Object secondNode);
         List<int> GetNeighbors(Object nodeId);
         List<int> GetEdges(Object nodeId);
