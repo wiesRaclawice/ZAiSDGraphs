@@ -8,32 +8,32 @@ namespace ZAiSD_Graphs.Classes
 {
     class MatrixRepresentation : Graph
     {
-        public void AddNode(object nodeId)
+        public void AddNode(int nodeId)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteNode(object nodeId)
+        public void DeleteNode(int nodeId)
         {
             throw new NotImplementedException();
         }
 
-        public void AddEdge(object firstNode, object secondNode, int weight)
+        public void AddEdge(int firstNode, int secondNode, int weight)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteEdge(object firstNode, object secondNode)
+        public void DeleteEdge(int firstNode, int secondNode)
         {
             throw new NotImplementedException();
         }
 
-        public List<int> GetNeighbors(object nodeId)
+        public MyList<Node> GetNeighbors(int nodeId)
         {
             throw new NotImplementedException();
         }
 
-        public List<int> GetEdges(object nodeId)
+        public MyList<Edge> GetIncidentEdges(int nodeId)
         {
             throw new NotImplementedException();
         }
@@ -48,7 +48,7 @@ namespace ZAiSD_Graphs.Classes
             throw new NotImplementedException();
         }
 
-        public bool areNeighbors(object firstNode, object secondNode)
+        public bool areNeighbors(int firstNode, int secondNode)
         {
             throw new NotImplementedException();
         }

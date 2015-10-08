@@ -12,8 +12,8 @@ namespace ZAiSD_Graphs.Classes
         void DeleteNode(int nodeId);
         void AddEdge(int nodeFrom, int nodeTo, int weight);
         void DeleteEdge(int fnoteFrom, int nodeTo);
-        List<Node> GetNeighbors(int nodeId);
-        List<Edge> GetIncidentEdges(int nodeId);
+        MyList<Node> GetNeighbors(int nodeId);
+        MyList<Edge> GetIncidentEdges(int nodeId);
         int GetNumberOfNodes();
         int GetNumberOfEdges();
         Boolean areNeighbors(int firstNode, int secondNode); 

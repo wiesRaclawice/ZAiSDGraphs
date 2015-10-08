@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,107 +64,70 @@ namespace ZAiSD_Graphs.Classes
             var edge = new Edge(weight, _nodes[secondNode]);
 
             var node = _nodes[firstNode];
-
-            if (node.EdgeList.Head == null)
-            {
-                node.EdgeList.Head = node.EdgeList.Tail = edge;
-            }
-            else
-            {
-                node.EdgeList.Tail.NextEdge = edge;
-                node.EdgeList.Tail = edge;
-            }
+            node?.EdgeList.Add(edge);
         }
 
-        public void DeleteFromList(Node node, int nodeId)
-        {
-            var edgeList = node.EdgeList;
-            if (edgeList.Head == null) return;
-
-            var element = edgeList.Head;
-            var previous = element;
-            while (element != null && !element.NodeObject.NodeId.Equals(nodeId))
-            {
-                previous = element;
-                element = element.NextEdge;
-            }
-
-            if (element == null) return;
-
-            if (element == edgeList.Head)
-            {
-                edgeList.Head = element.NextEdge;
-            }
-            else
-            {
-                if (element.NextEdge == null)
-                {
-                    edgeList.Tail = previous;
-                    previous.NextEdge = null;
-                }
-                else
-                {
-                    previous.NextEdge = element.NextEdge;
-                }
-            }
-        }
-
+        
         public void DeleteEdge(int firstNode, int secondNode)
         {
-            DeleteFromList(_nodes[firstNode], secondNode);
+            Edge element = null;
+            foreach (Edge e in _nodes[firstNode].EdgeList)
+            {
+                if (e.NodeObject.NodeId.Equals(secondNode))
+                {
+                    element = e;
+                    break;
+                }
+            }
+            if (element != null)
+            {
+                _nodes[firstNode].EdgeList.Remove(element);
+            }
         }
 
-        public List<Node> GetNeighbors(int nodeId)
+        public MyList<Node> GetNeighbors(int nodeId)
         {
-            var neighborList = new List<Node>();
+            var neighborList = new MyList<Node>();
             
             foreach (var node in _nodes)
             {
-                var element = node.EdgeList.Head;
-
-                while (element != null)
+                foreach (var edge in node.EdgeList)
                 {
-                    if (!element.NodeObject.NodeId.Equals(nodeId) || !node.NodeId.Equals(nodeId)) continue;
-                    if (!neighborList.Contains(element.NodeObject))
+                    if (!edge.NodeObject.NodeId.Equals(nodeId) || !node.NodeId.Equals(nodeId)) continue;
+                    if (!neighborList.Contains(edge.NodeObject))
                     {
-                        neighborList.Add(element.NodeObject);
+                        neighborList.Add(edge.NodeObject);
                     }
-                    element = element.NextEdge;
                 }
             }
             
             return neighborList;
         }
 
-        public List<Edge> GetIncidentEdges(int nodeId)
+        public MyList<Edge> GetIncidentEdges(int nodeId)
         {
-            var edges = new List<Edge>();
-            var neighbors = new List<Node>();
+            var edges = new MyList<Edge>();
+            var neighbors = new MyList<Node>();
 
             neighbors = GetNeighbors(nodeId);
 
             foreach (var neighbor in neighbors)
             {
-                var element = _nodes[neighbor.NodeId].EdgeList.Head;
-                while (element != null)
+                foreach (var edge in _nodes[neighbor.NodeId].EdgeList)
                 {
-                    if (element.NodeObject.NodeId.Equals(nodeId))
+                    if (edge.NodeObject.NodeId.Equals(nodeId))
                     {
-                        edges.Add(element);
+                        edges.Add(edge);
                     }
-                    element = element.NextEdge;
                 }
             }
 
-            var e = _nodes[nodeId].EdgeList.Head;
 
-            while (e != null)
+            foreach (var edge in _nodes[nodeId].EdgeList)
             {
-                edges.Add(e);
-                e = e.NextEdge;
-            } 
+                edges.Add(edge);
+            }
             
-
             return edges;
         }
 
@@ -180,7 +144,15 @@ namespace ZAiSD_Graphs.Classes
         public bool areNeighbors(int firstNode, int secondNode)
         {
             var neighbors = GetNeighbors(firstNode);
-            return neighbors.Exists(node => node.NodeId.Equals(secondNode));
+            var found = false;
+            foreach (var neighbor in neighbors)
+            {
+                if (neighbor.NodeId.Equals(secondNode))
+                {
+                    found = true;
+                }
+            }
+            return found;
         }
     }
 }

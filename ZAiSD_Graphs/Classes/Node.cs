@@ -5,12 +5,12 @@ namespace ZAiSD_Graphs.Classes
     public class Node
     {
         public int NodeId { get; }
-        public EdgeList EdgeList { get; }
+        public MyList<Edge> EdgeList { get; }
 
         public Node(int nodeId)
         {
            NodeId = nodeId;
-           EdgeList = new EdgeList();
+           EdgeList = new MyList<Edge>();
         }
     }
 }
