@@ -3,7 +3,8 @@
     internal class Edge
     {
         private int _weight;
-        private Edge _nextEdge;
+        public object _nodeId { get; }
+        public Edge _nextEdge { get; }
 
         public Edge(int weight)
         {
