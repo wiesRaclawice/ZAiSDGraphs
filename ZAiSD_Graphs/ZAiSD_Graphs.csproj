@@ -68,6 +68,7 @@
     <Compile Include="Classes\NeighborhoodRepresentation.cs" />
     <Compile Include="Classes\Node.cs" />
     <Compile Include="Helpers\ReadFromFile.cs" />
+    <Compile Include="Helpers\Weights.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

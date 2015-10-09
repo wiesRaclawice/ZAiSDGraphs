@@ -2,13 +2,15 @@
 {
     public class Edge
     {
-        private int _weight;
-        public Node NodeObject { get; }
+        public int Weight { get; }
+        public Node NodeFrom { get; set; }
+        public Node NodeTo { get; }
 
-        public Edge(int weight, Node node)
+        public Edge(int weight, Node nodeFrom, Node nodeTo)
         {
-            _weight = weight;
-            NodeObject = node;
+            Weight = weight;
+            NodeFrom = nodeFrom;
+            NodeTo = nodeTo;
         }
 
     }

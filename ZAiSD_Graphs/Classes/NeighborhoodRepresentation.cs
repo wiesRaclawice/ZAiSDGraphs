@@ -61,7 +61,7 @@ namespace ZAiSD_Graphs.Classes
             }
 
             _numberOfEdges += 1;
-            var edge = new Edge(weight, Nodes[secondNode]);
+            var edge = new Edge(weight, Nodes[firstNode], Nodes[secondNode]);
 
             var node = Nodes[firstNode];
             node?.EdgeList.Add(edge);
@@ -73,7 +73,7 @@ namespace ZAiSD_Graphs.Classes
             Edge element = null;
             foreach (Edge e in Nodes[firstNode].EdgeList)
             {
-                if (e.NodeObject.NodeId.Equals(secondNode))
+                if (e.NodeTo.NodeId.Equals(secondNode))
                 {
                     element = e;
                     break;
@@ -93,7 +93,7 @@ namespace ZAiSD_Graphs.Classes
             {
                 foreach (var edge in node.EdgeList)
                 {
-                    if (edge.NodeObject.NodeId.Equals(nodeId))
+                    if (edge.NodeTo.NodeId.Equals(nodeId))
                     {
                         if (!neighborList.Contains(node))
                         {
@@ -105,9 +105,9 @@ namespace ZAiSD_Graphs.Classes
 
             foreach (var edge in Nodes[nodeId].EdgeList)
             {
-                if (!neighborList.Contains(edge.NodeObject))
+                if (!neighborList.Contains(edge.NodeTo))
                 {
-                    neighborList.Add(edge.NodeObject);
+                    neighborList.Add(edge.NodeTo);
                 }
             }
             
@@ -125,7 +125,7 @@ namespace ZAiSD_Graphs.Classes
             {
                 foreach (var edge in Nodes[neighbor.NodeId].EdgeList)
                 {
-                    if (edge.NodeObject.NodeId.Equals(nodeId))
+                    if (edge.NodeTo.NodeId.Equals(nodeId))
                     {
                         edges.Add(edge);
                     }
