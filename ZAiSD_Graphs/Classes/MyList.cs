@@ -5,6 +5,7 @@ namespace ZAiSD_Graphs.Classes
 {
     public class MyList<T>
     {
+        public int Length { get; set; }
 
         private class Element
         {
@@ -37,6 +38,7 @@ namespace ZAiSD_Graphs.Classes
         {
             head = null;
             tail = null;
+            Length = 0;
         }
 
         public void Add(T t)
@@ -51,6 +53,7 @@ namespace ZAiSD_Graphs.Classes
                 tail.Next = e;
                 tail = e;
             }
+            Length += 1;
         }
 
         public void Remove(T t)
@@ -66,24 +69,26 @@ namespace ZAiSD_Graphs.Classes
                         if (e == head)
                         {
                             head = e.Next;
-                        } else if (e == tail)
+                            break;
+                        } 
+                        
+                        if (e == tail)
                         {
                             previous.Next = null;
                             tail = previous;
+                            break;
                         }
-                        else
-                        {
-                            previous.Next = e.Next;
-                        }
+                        
+                        previous.Next = e.Next;
+                        break;
                     }
-                    else
-                    {
-                        previous = e;
-                        e = e.Next;
-                    }
+
+                    previous = e;
+                    e = e.Next;
+                    
                 }
             }
-
+            Length -= 1;
         }
 
         public bool Contains(T t)

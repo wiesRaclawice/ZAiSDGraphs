@@ -8,33 +8,33 @@ using System.Threading.Tasks;
 
 namespace ZAiSD_Graphs.Classes
 {
-    internal class NeighborhoodRepresentation : Graph
+    public class NeighborhoodRepresentation : Graph
     {
-        private Node[] _nodes;
+        public Node[] Nodes { get; }
         private int _numberOfNodes;
         private int _numberOfEdges;
 
         public NeighborhoodRepresentation(int numberOfNodes)
         {
-            _nodes = new Node[numberOfNodes];
+            Nodes = new Node[numberOfNodes];
             _numberOfNodes = 0;
         }
 
         public void AddNode(int nodeId)
         {
-            if (_nodes[nodeId] != null) return;
-            _nodes[nodeId] = new Node(nodeId);
+            if (Nodes[nodeId] != null) return;
+            Nodes[nodeId] = new Node(nodeId);
             _numberOfNodes += 1;
         }
 
         private void DeleteNodeFromTable(int nodeId)
         {
-            _nodes[nodeId] = null;
+            Nodes[nodeId] = null;
         }
 
         private void DeleteEdgesToDeletedNode(int deletedNodeId)
         {
-            foreach (var node in _nodes)
+            foreach (var node in Nodes.Where(node => node != null))
             {
                 DeleteEdge(node.NodeId, deletedNodeId);
             }
@@ -50,20 +50,20 @@ namespace ZAiSD_Graphs.Classes
         public void AddEdge(int firstNode, int secondNode, int weight)
         {
 
-            if (_nodes[firstNode] == null)
+            if (Nodes[firstNode] == null)
             {
                 AddNode(firstNode);
             }
 
-            if (_nodes[secondNode] == null)
+            if (Nodes[secondNode] == null)
             {
                 AddNode(secondNode);
             }
 
             _numberOfEdges += 1;
-            var edge = new Edge(weight, _nodes[secondNode]);
+            var edge = new Edge(weight, Nodes[secondNode]);
 
-            var node = _nodes[firstNode];
+            var node = Nodes[firstNode];
             node?.EdgeList.Add(edge);
         }
 
@@ -71,7 +71,7 @@ namespace ZAiSD_Graphs.Classes
         public void DeleteEdge(int firstNode, int secondNode)
         {
             Edge element = null;
-            foreach (Edge e in _nodes[firstNode].EdgeList)
+            foreach (Edge e in Nodes[firstNode].EdgeList)
             {
                 if (e.NodeObject.NodeId.Equals(secondNode))
                 {
@@ -81,7 +81,7 @@ namespace ZAiSD_Graphs.Classes
             }
             if (element != null)
             {
-                _nodes[firstNode].EdgeList.Remove(element);
+                Nodes[firstNode].EdgeList.Remove(element);
             }
         }
 
@@ -89,15 +89,25 @@ namespace ZAiSD_Graphs.Classes
         {
             var neighborList = new MyList<Node>();
             
-            foreach (var node in _nodes)
+            foreach (var node in Nodes.Where(node => node != null))
             {
                 foreach (var edge in node.EdgeList)
                 {
-                    if (!edge.NodeObject.NodeId.Equals(nodeId) || !node.NodeId.Equals(nodeId)) continue;
-                    if (!neighborList.Contains(edge.NodeObject))
+                    if (edge.NodeObject.NodeId.Equals(nodeId))
                     {
-                        neighborList.Add(edge.NodeObject);
-                    }
+                        if (!neighborList.Contains(node))
+                        {
+                            neighborList.Add(node);
+                        }
+                    } 
+                }
+            }
+
+            foreach (var edge in Nodes[nodeId].EdgeList)
+            {
+                if (!neighborList.Contains(edge.NodeObject))
+                {
+                    neighborList.Add(edge.NodeObject);
                 }
             }
             
@@ -113,7 +123,7 @@ namespace ZAiSD_Graphs.Classes
 
             foreach (var neighbor in neighbors)
             {
-                foreach (var edge in _nodes[neighbor.NodeId].EdgeList)
+                foreach (var edge in Nodes[neighbor.NodeId].EdgeList)
                 {
                     if (edge.NodeObject.NodeId.Equals(nodeId))
                     {
@@ -123,7 +133,7 @@ namespace ZAiSD_Graphs.Classes
             }
 
 
-            foreach (var edge in _nodes[nodeId].EdgeList)
+            foreach (var edge in Nodes[nodeId].EdgeList)
             {
                 edges.Add(edge);
             }

@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZAiSD_Graphs", "ZAiSD_Graphs\ZAiSD_Graphs.csproj", "{B5ECBBD5-5350-4A1C-B2AF-17AAD588D2C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZAiSD_GraphsTests", "ZAiSD_GraphsTests\ZAiSD_GraphsTests.csproj", "{B6F749C8-B90C-4FAA-845F-BC6CEBFC0466}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B5ECBBD5-5350-4A1C-B2AF-17AAD588D2C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5ECBBD5-5350-4A1C-B2AF-17AAD588D2C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5ECBBD5-5350-4A1C-B2AF-17AAD588D2C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6F749C8-B90C-4FAA-845F-BC6CEBFC0466}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6F749C8-B90C-4FAA-845F-BC6CEBFC0466}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6F749C8-B90C-4FAA-845F-BC6CEBFC0466}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6F749C8-B90C-4FAA-845F-BC6CEBFC0466}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
