@@ -26,33 +26,34 @@ namespace ZAiSD_Graphs
             Warshall_Floyd alg = new Warshall_Floyd(neighborhoodRepresentation);
             alg.compute();
             long neighborhoodTime = alg.GetTimeElapsed();
-
-            Console.WriteLine(alg.ShortestPathTable[109, 609]);
-            var previous = alg.Previous;
-
-            var secondToLast = previous[109, 609];
-            do
-            {
-                Console.WriteLine(secondToLast);
-                secondToLast = previous[109, secondToLast];
-            } while (secondToLast != 109);
-
+            
             MatrixRepresentation matrixRepresentation = new MatrixRepresentation(1000);
             ReadFromFile.LoadGraph(matrixRepresentation, path);
             alg = new Warshall_Floyd(matrixRepresentation);
             alg.compute();
             long matrixTime = alg.GetTimeElapsed();
 
+            Console.WriteLine("Distance:");
             Console.WriteLine(alg.ShortestPathTable[109, 609]);
-            previous = alg.Previous;
 
-            secondToLast = previous[109, 609];
+            Console.WriteLine("Path:");
+
+            var previous = alg.Previous;
+            var secondToLast = previous[109, 609];
+            var stack = new Stack<int>();
             do
             {
-                Console.WriteLine(secondToLast);
+                stack.Push(secondToLast);
                 secondToLast = previous[109, secondToLast];
             } while (secondToLast != 109);
 
+            Console.Write("[ 109 ");
+            while (stack.Count != 0)
+            {
+                Console.Write(stack.Pop());
+                Console.Write(" ");
+            }
+            Console.WriteLine("609 ]");
 
             Console.WriteLine("Time for the neighborhood:");
             Console.WriteLine(neighborhoodTime);
