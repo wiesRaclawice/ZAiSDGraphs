@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZAiSD_Graphs.Classes
 {
-    interface Graph
+    public interface Graph
     {
         void AddNode(int nodeId);
         void DeleteNode(int nodeId);

@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Warshall-Floyd.cs" />
     <Compile Include="Classes\Edge.cs" />
     <Compile Include="Classes\MyList.cs" />
     <Compile Include="Classes\Graph.cs" />
@@ -89,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="graf.txt" />
+    <Content Include="graf_duzy.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

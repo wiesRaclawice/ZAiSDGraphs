@@ -93,9 +93,14 @@ namespace ZAiSD_Graphs.Classes
             return edges;
         }
 
-        public int GetNumberOfNodes()
+        public int GetCurrentNumberOfNodes()
         {
             return _currentNumberOfNodes;
+        }
+
+        public int GetNumberOfNodes()
+        {
+            return _numberOfNodes;
         }
 
         public int GetNumberOfEdges()
