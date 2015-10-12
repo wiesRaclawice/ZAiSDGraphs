@@ -11,20 +11,22 @@ namespace ZAiSD_Graphs.Classes
     public class NeighborhoodRepresentation : Graph
     {
         public Node[] Nodes { get; }
+        private int _currentNumberOfNodes;
         private int _numberOfNodes;
         private int _numberOfEdges;
 
         public NeighborhoodRepresentation(int numberOfNodes)
         {
             Nodes = new Node[numberOfNodes];
-            _numberOfNodes = 0;
+            _currentNumberOfNodes = 0;
+            _numberOfNodes = numberOfNodes;
         }
 
         public void AddNode(int nodeId)
         {
             if (Nodes[nodeId] != null) return;
             Nodes[nodeId] = new Node(nodeId);
-            _numberOfNodes += 1;
+            _currentNumberOfNodes += 1;
         }
 
         private void DeleteNodeFromTable(int nodeId)
@@ -44,7 +46,7 @@ namespace ZAiSD_Graphs.Classes
         {
             DeleteNodeFromTable(nodeId);
             DeleteEdgesToDeletedNode(nodeId);
-            _numberOfNodes -= 1;
+            _currentNumberOfNodes -= 1;
         }
 
         public void AddEdge(int firstNode, int secondNode, int weight)
@@ -142,6 +144,11 @@ namespace ZAiSD_Graphs.Classes
         }
 
         public int GetNumberOfNodes()
+        {
+            return _currentNumberOfNodes;
+        }
+
+        public int GetCurrentNumberOfNodes()
         {
             return _numberOfNodes;
         }

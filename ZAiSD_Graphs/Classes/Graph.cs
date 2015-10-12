@@ -15,6 +15,7 @@ namespace ZAiSD_Graphs.Classes
         MyList<Node> GetNeighbors(int nodeId);
         MyList<Edge> GetIncidentEdges(int nodeId);
         int GetNumberOfNodes();
+        int GetCurrentNumberOfNodes();
         int GetNumberOfEdges();
         Boolean areNeighbors(int firstNode, int secondNode); 
 
