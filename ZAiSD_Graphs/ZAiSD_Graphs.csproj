@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Ford-Fulkerson.cs" />
     <Compile Include="Algorithms\Warshall-Floyd.cs" />
     <Compile Include="Classes\Edge.cs" />
     <Compile Include="Classes\MyList.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="Classes\NeighborhoodRepresentation.cs" />
     <Compile Include="Classes\Node.cs" />
     <Compile Include="Helpers\ReadFromFile.cs" />
-    <Compile Include="Helpers\Weights.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

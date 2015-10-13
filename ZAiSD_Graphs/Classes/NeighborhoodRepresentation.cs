@@ -22,6 +22,11 @@ namespace ZAiSD_Graphs.Classes
             _numberOfNodes = numberOfNodes;
         }
 
+        public Node[] GetNodes()
+        {
+            return Nodes;
+        }
+
         public void AddNode(int nodeId)
         {
             if (Nodes[nodeId] != null) return;
@@ -114,6 +119,18 @@ namespace ZAiSD_Graphs.Classes
             }
             
             return neighborList;
+        }
+
+        public MyList<Edge> GetOutboundEdges(int nodeId)
+        {
+            var edges = new MyList<Edge>();
+
+            foreach (var edge in Nodes[nodeId].EdgeList)
+            {
+                edges.Add(edge);
+            }
+
+            return edges;
         }
 
         public MyList<Edge> GetIncidentEdges(int nodeId)

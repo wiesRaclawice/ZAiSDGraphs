@@ -13,7 +13,7 @@ namespace ZAiSD_Graphs.Algorithms
     {
         private int NUMBER_OF_NODES;
         private Graph representation;
-        public int[,] ShortestPathTable { get; }
+        public long[,] ShortestPathTable { get; }
         public int[,] Previous { get; }
         private Stopwatch stopwatch;
         private long elapsedMiliseconds;
@@ -22,7 +22,7 @@ namespace ZAiSD_Graphs.Algorithms
         {
             this.representation = representation;
             NUMBER_OF_NODES = representation.GetNumberOfNodes();
-            ShortestPathTable = new int[NUMBER_OF_NODES,NUMBER_OF_NODES];
+            ShortestPathTable = new long[NUMBER_OF_NODES,NUMBER_OF_NODES];
             Previous = new int[NUMBER_OF_NODES,NUMBER_OF_NODES];
             stopwatch = new Stopwatch();
         }

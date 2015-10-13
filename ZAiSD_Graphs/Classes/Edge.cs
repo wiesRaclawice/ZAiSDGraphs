@@ -2,7 +2,7 @@
 {
     public class Edge
     {
-        public int Weight { get; }
+        public long Weight { get; set; }
         public Node NodeFrom { get; set; }
         public Node NodeTo { get; }
 

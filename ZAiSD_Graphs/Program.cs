@@ -20,10 +20,20 @@ namespace ZAiSD_Graphs
             ReadFromFile.LoadMatrixGraph(matrixRepresentation);
             Console.WriteLine(matrixRepresentation.GetNumberOfNodes());*/
 
+            MatrixRepresentation matrixRepresentation = new MatrixRepresentation(1000);
+            ReadFromFile.LoadGraph(matrixRepresentation, path);
+
+            Ford_Fulkerson alg = new Ford_Fulkerson(109,609,matrixRepresentation);
+            alg.compute();
+
             NeighborhoodRepresentation neighborhoodRepresentation = new NeighborhoodRepresentation(1000);
             ReadFromFile.LoadGraph(neighborhoodRepresentation, path);
 
-            Warshall_Floyd alg = new Warshall_Floyd(neighborhoodRepresentation);
+            alg = new Ford_Fulkerson(109,609,neighborhoodRepresentation);
+            alg.compute();
+            
+
+            /*Warshall_Floyd alg = new Warshall_Floyd(neighborhoodRepresentation);
             alg.compute();
             long neighborhoodTime = alg.GetTimeElapsed();
             
@@ -63,7 +73,7 @@ namespace ZAiSD_Graphs
 
             Console.Write("Ratio: ");
             Console.WriteLine((decimal)neighborhoodTime/matrixTime);
-
+            */
 
 
         }

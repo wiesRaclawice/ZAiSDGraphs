@@ -23,6 +23,7 @@ namespace ZAiSD_Graphs.Helpers
                         var values = line.Split(';', ' ');
                         representation.AddEdge(Convert.ToInt32(values[0]), Convert.ToInt32(values[2]),
                             Convert.ToInt32(values[4]));
+                        
                     }
 
                 }
