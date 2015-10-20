@@ -108,6 +108,8 @@ namespace ZAiSD_Graphs.Classes
             return found;
         }
 
+        
+
         public IEnumerator<T> GetEnumerator()
         {
             Element current = head;

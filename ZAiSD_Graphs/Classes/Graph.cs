@@ -9,6 +9,7 @@ namespace ZAiSD_Graphs.Classes
     public interface Graph
     {
         Node[] GetNodes();
+        MyList<Edge> GetEdges(); 
         void AddNode(int nodeId);
         void DeleteNode(int nodeId);
         void AddEdge(int nodeFrom, int nodeTo, int weight);
@@ -16,10 +17,11 @@ namespace ZAiSD_Graphs.Classes
         MyList<Node> GetNeighbors(int nodeId);
         MyList<Edge> GetOutboundEdges(int nodeId);
         MyList<Edge> GetIncidentEdges(int nodeId);
+        Edge GetEdge(int nodeFrom, int nodeTo);
         int GetNumberOfNodes();
         int GetCurrentNumberOfNodes();
         int GetNumberOfEdges();
-        Boolean areNeighbors(int firstNode, int secondNode); 
-
+        Boolean areNeighbors(int firstNode, int secondNode);
+        Boolean isEdge(int nodeFrom, int nodeTo);
     }
 }

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ZAiSD_Graphs.Algorithms;
 using ZAiSD_Graphs.Classes;
 using ZAiSD_Graphs.Helpers;
@@ -20,41 +16,34 @@ namespace ZAiSD_Graphs
             ReadFromFile.LoadMatrixGraph(matrixRepresentation);
             Console.WriteLine(matrixRepresentation.GetNumberOfNodes());*/
 
-            MatrixRepresentation matrixRepresentation = new MatrixRepresentation(1000);
+            var source = 109;
+            var terminal = 609;
+            var size = 1000;
+
+            MatrixRepresentation matrixRepresentation = new MatrixRepresentation(size);
             ReadFromFile.LoadGraph(matrixRepresentation, path);
 
-            Ford_Fulkerson alg = new Ford_Fulkerson(109,609,matrixRepresentation);
+            /*Ford_Fulkerson alg = new Ford_Fulkerson(source,terminal,matrixRepresentation, size);
             alg.compute();
 
-            NeighborhoodRepresentation neighborhoodRepresentation = new NeighborhoodRepresentation(1000);
+            NeighborhoodRepresentation neighborhoodRepresentation = new NeighborhoodRepresentation(size);
             ReadFromFile.LoadGraph(neighborhoodRepresentation, path);
 
-            alg = new Ford_Fulkerson(109,609,neighborhoodRepresentation);
-            alg.compute();
-            
+            alg = new Ford_Fulkerson(source,terminal,neighborhoodRepresentation, size);
+            alg.compute();*/
 
-            /*Warshall_Floyd alg = new Warshall_Floyd(neighborhoodRepresentation);
-            alg.compute();
-            long neighborhoodTime = alg.GetTimeElapsed();
-            
-            MatrixRepresentation matrixRepresentation = new MatrixRepresentation(1000);
-            ReadFromFile.LoadGraph(matrixRepresentation, path);
-            alg = new Warshall_Floyd(matrixRepresentation);
-            alg.compute();
-            long matrixTime = alg.GetTimeElapsed();
-
-            Console.WriteLine("Distance:");
-            Console.WriteLine(alg.ShortestPathTable[109, 609]);
+            Bellman_Ford bellman = new Bellman_Ford(matrixRepresentation, 109);
+            bellman.compute();
 
             Console.WriteLine("Path:");
 
-            var previous = alg.Previous;
-            var secondToLast = previous[109, 609];
-            var stack = new Stack<int>();
+            var previous = bellman.Previous;
+            var secondToLast = previous[609];
+            var stack = new Stack<int?>();
             do
             {
                 stack.Push(secondToLast);
-                secondToLast = previous[109, secondToLast];
+                secondToLast = previous[(int) secondToLast];
             } while (secondToLast != 109);
 
             Console.Write("[ 109 ");
@@ -65,15 +54,9 @@ namespace ZAiSD_Graphs
             }
             Console.WriteLine("609 ]");
 
-            Console.WriteLine("Time for the neighborhood:");
-            Console.WriteLine(neighborhoodTime);
+            Console.WriteLine("Distance:");
+            Console.WriteLine(bellman.ShortestPathTable[609]);
 
-            Console.WriteLine("Time for the matrix:");
-            Console.WriteLine(matrixTime);
-
-            Console.Write("Ratio: ");
-            Console.WriteLine((decimal)neighborhoodTime/matrixTime);
-            */
 
 
         }

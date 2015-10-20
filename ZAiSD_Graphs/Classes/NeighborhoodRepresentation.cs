@@ -27,6 +27,19 @@ namespace ZAiSD_Graphs.Classes
             return Nodes;
         }
 
+        public MyList<Edge> GetEdges()
+        {
+            var edges = new MyList<Edge>();
+            for (int i = 0; i < Nodes.Length; i++)
+            {
+                foreach (var edge in Nodes[i].EdgeList)
+                {
+                    edges.Add(edge);
+                }
+            }
+            return edges;
+        } 
+
         public void AddNode(int nodeId)
         {
             if (Nodes[nodeId] != null) return;
@@ -160,6 +173,16 @@ namespace ZAiSD_Graphs.Classes
             return edges;
         }
 
+        public Edge GetEdge(int nodeFrom, int nodeTo)
+        {
+            foreach (var edge in Nodes[nodeFrom].EdgeList)
+            {
+                if (edge.NodeTo.NodeId.Equals(nodeTo)) return edge;
+            }
+
+            return null;
+        }
+
         public int GetNumberOfNodes()
         {
             return _currentNumberOfNodes;
@@ -187,6 +210,16 @@ namespace ZAiSD_Graphs.Classes
                 }
             }
             return found;
+        }
+
+        public bool isEdge(int nodeFrom, int nodeTo)
+        {
+            foreach (var edge in Nodes[nodeFrom].EdgeList)
+            {
+                if (edge.NodeTo.NodeId.Equals(nodeTo)) return true;
+            }
+
+            return false;
         }
     }
 }

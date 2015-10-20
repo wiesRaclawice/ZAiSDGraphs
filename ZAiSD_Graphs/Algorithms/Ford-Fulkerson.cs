@@ -15,13 +15,30 @@ namespace ZAiSD_Graphs.Algorithms
         private int _terminal;
         private Graph _representation;
         private Stopwatch _stopwatch;
+        public long[,] FlowMatrix { get; }
+        private int size;
+        private Node[] nodes;
 
-        public Ford_Fulkerson(int source, int terminal, Graph representation)
+        public Ford_Fulkerson(int source, int terminal, Graph representation, int size)
         {
             _source = source;
             _terminal = terminal;
             _representation = representation;
             _stopwatch = new Stopwatch();
+            FlowMatrix = new long[size,size];
+            this.size = size;
+            nodes = representation.GetNodes();
+        }
+
+        private void ResetFlowMatrix()
+        {
+            for (var i = 0; i < size; i++)
+            {
+                for (var j = 0; j < size; j++)
+                {
+                    FlowMatrix[i,j] = 0;
+                }
+            }
         }
 
         public void compute()
@@ -37,50 +54,36 @@ namespace ZAiSD_Graphs.Algorithms
                 //Znajdź c_f(p) = \min\{c_f(u,v) : (u,v) \in p\}
                 foreach (var edge in path)
                 {
-                    if (edge.Weight < minWeight)
-                        minWeight = edge.Weight; 
+                    var cf = edge.Weight - FlowMatrix[edge.NodeFrom.NodeId, edge.NodeTo.NodeId];
+                    if (cf < minWeight)
+                        minWeight = cf; 
                 }
 
                 //Dla każdej krawędzi (u,v) \in pf(u, v) \leftarrow f(u, v) +c_f(p) f(v, u) \leftarrow f(v, u) - c_f(p)
                 ChangeWeights(path, minWeight);
-
                 flow += minWeight;
-
+                
                 path = SearchPath(_representation.GetNodes()[_source], _representation.GetNodes()[_terminal]);
             }
             _stopwatch.Stop();
-            
-            Console.WriteLine("\n** Max flow = " + flow);
             Console.WriteLine("Time elapsed = " + _stopwatch.ElapsedMilliseconds);
-            
+            Console.WriteLine("Flow = " + flow);
+
         }
 
         private void ChangeWeights(MyList<Edge> path, long minWeight)
         {
             foreach (var edge in path)
             {
-                if (_representation.GetType() == typeof (MatrixRepresentation))
+                FlowMatrix[edge.NodeFrom.NodeId, edge.NodeTo.NodeId] += minWeight;
+                FlowMatrix[edge.NodeTo.NodeId, edge.NodeFrom.NodeId] -= minWeight;
+                
+                if (_representation.isEdge(edge.NodeTo.NodeId, edge.NodeFrom.NodeId))
                 {
-                    var rep = (MatrixRepresentation) _representation;
-                    var edgeResidual = rep.Matrix[edge.NodeTo.NodeId, edge.NodeFrom.NodeId];
-                    edge.Weight -= minWeight;
-                }
-                else
-                {
-                    var rep = (NeighborhoodRepresentation) _representation;
-                    Edge edgeResidual = null;
-                    foreach (var e in rep.GetOutboundEdges(edge.NodeTo.NodeId))
+                    if (FlowMatrix[edge.NodeFrom.NodeId, edge.NodeTo.NodeId] > 0)
                     {
-                        if (e.NodeFrom.NodeId.Equals(edge.NodeFrom.NodeId))
-                        {
-                            edgeResidual = e;
-                            break;
-                        }
-                    }
-                    edge.Weight -= minWeight;
-                    if (edgeResidual != null)
-                    {
-                        edgeResidual.Weight += minWeight;
+                        _representation.AddEdge(edge.NodeTo.NodeId,
+                            edge.NodeFrom.NodeId, (int) FlowMatrix[edge.NodeFrom.NodeId, edge.NodeTo.NodeId]);
                     }
                 }
             }
@@ -101,12 +104,15 @@ namespace ZAiSD_Graphs.Algorithms
                     return GetPath(current);
                 }
 
+                
+                //Duży narzut dla macierzowej!!!
                 var nodeEdges = _representation.GetOutboundEdges(current.NodeId);
                 foreach (var edge in nodeEdges)
                 {
                     var next = edge.NodeTo;
                     var weight = edge.Weight;
-                    if (weight > 0 && !parsed.Contains(next))
+                    var curr = weight - FlowMatrix[edge.NodeFrom.NodeId, edge.NodeTo.NodeId];
+                    if (curr > 0 && !parsed.Contains(next))
                     {
                         next.ParentNode = current;
                         queue.Enqueue(next);
@@ -123,24 +129,7 @@ namespace ZAiSD_Graphs.Algorithms
             var current = node;
             while (current.ParentNode != null)
             {
-                if (_representation.GetType() == typeof(MatrixRepresentation))
-                {
-                    var rep = (MatrixRepresentation) _representation;
-                    path.Add(rep.Matrix[current.ParentNode.NodeId, current.NodeId]);
-                }
-                else
-                {
-                    var rep = (NeighborhoodRepresentation)_representation;
-                    foreach (var e in rep.Nodes[current.ParentNode.NodeId].EdgeList)
-                    {
-                        if (e.NodeTo.NodeId.Equals(current.NodeId))
-                        {
-                            path.Add(e);
-                            break;
-                        }
-                    }
-                }
-                
+                path.Add(_representation.GetEdge(current.ParentNode.NodeId, current.NodeId));
                 current = current.ParentNode;
             }
             return path;

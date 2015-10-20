@@ -27,6 +27,22 @@ namespace ZAiSD_Graphs.Classes
             return Nodes;
         }
 
+        public MyList<Edge> GetEdges()
+        {
+            var edges = new MyList<Edge>();
+            for (int i = 0; i < _numberOfNodes; i++)
+            {
+                for (int j = 0; j < _numberOfNodes; j++)
+                {
+                    if (Matrix[i, j] != null)
+                    {
+                        edges.Add(Matrix[i,j]);
+                    }
+                }
+            }
+            return edges;
+        } 
+
         public void AddNode(int nodeId)
         {
             Nodes[nodeId] = new Node(nodeId);
@@ -110,6 +126,11 @@ namespace ZAiSD_Graphs.Classes
             return edges;
         }
 
+        public Edge GetEdge(int nodeFrom, int nodeTo)
+        {
+            return Matrix[nodeFrom, nodeTo];
+        }
+
         public int GetCurrentNumberOfNodes()
         {
             return _currentNumberOfNodes;
@@ -128,6 +149,11 @@ namespace ZAiSD_Graphs.Classes
         public bool areNeighbors(int firstNode, int secondNode)
         {
             return Matrix[firstNode, secondNode] != null || Matrix[secondNode, firstNode] != null;
+        }
+
+        public bool isEdge(int nodeFrom, int nodeTo)
+        {
+            return Matrix[nodeFrom, nodeTo] != null;
         }
     }
 }

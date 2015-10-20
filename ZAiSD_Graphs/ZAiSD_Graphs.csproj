@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithms\Bellman-Ford.cs" />
     <Compile Include="Algorithms\Ford-Fulkerson.cs" />
     <Compile Include="Algorithms\Warshall-Floyd.cs" />
     <Compile Include="Classes\Edge.cs" />
