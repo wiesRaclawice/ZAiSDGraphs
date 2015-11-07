@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B5ECBBD5-5350-4A1C-B2AF-17AAD588D2C3}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZAiSD_Graphs</RootNamespace>
     <AssemblyName>ZAiSD_Graphs</AssemblyName>
@@ -63,7 +63,6 @@
   <ItemGroup>
     <Compile Include="Algorithms\Bellman-Ford.cs" />
     <Compile Include="Algorithms\Ford-Fulkerson.cs" />
-    <Compile Include="Algorithms\Warshall-Floyd.cs" />
     <Compile Include="Classes\Edge.cs" />
     <Compile Include="Classes\MyList.cs" />
     <Compile Include="Classes\Graph.cs" />
@@ -71,6 +70,8 @@
     <Compile Include="Classes\NeighborhoodRepresentation.cs" />
     <Compile Include="Classes\Node.cs" />
     <Compile Include="Helpers\ReadFromFile.cs" />
+    <Compile Include="MatrixMultiplicaton\MatricesMultiplication.cs" />
+    <Compile Include="MatrixMultiplicaton\MatrixWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -92,6 +93,9 @@
   <ItemGroup>
     <Content Include="graf.txt" />
     <Content Include="graf_duzy.txt" />
+    <Content Include="macierz_mala.txt" />
+    <Content Include="matrices-smaller.txt" />
+    <Content Include="sample-matrices.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

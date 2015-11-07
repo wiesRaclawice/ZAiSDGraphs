@@ -30,6 +30,7 @@ namespace ZAiSD_Graphs.Algorithms
 
         public void compute()
         {
+            stopwatch.Start();
             // Krok 1: inicjowanie struktur
             foreach (var node in representation.GetNodes())
             {
@@ -47,16 +48,21 @@ namespace ZAiSD_Graphs.Algorithms
             var edges = representation.GetEdges();
 
             // Krok 2: relaksacyjne obliczanie długości ścieżek
-            for (int i = 0; i < NUMBER_OF_NODES; i++)
+            for (int i = 1; i < NUMBER_OF_NODES; i++)
             {
+                var isChanged = false;
                 foreach (var edge in edges)
                 {
+                    if (ShortestPathTable[edge.NodeFrom.NodeId].Equals(int.MaxValue)) continue;
+                    
                     if (ShortestPathTable[edge.NodeFrom.NodeId] + edge.Weight < ShortestPathTable[edge.NodeTo.NodeId])
                     {
                         ShortestPathTable[edge.NodeTo.NodeId] = ShortestPathTable[edge.NodeFrom.NodeId] + edge.Weight;
                         Previous[edge.NodeTo.NodeId] = edge.NodeFrom.NodeId;
+                        isChanged = true;
                     }
                 }
+                if (!isChanged) break;
             }
 
             // Krok 3: Sprawdzanie istnienia cykli o ujemnej długości
@@ -68,11 +74,11 @@ namespace ZAiSD_Graphs.Algorithms
                 }
             }
 
-
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed:");
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
 
-
-
-
+        
     }
 }
